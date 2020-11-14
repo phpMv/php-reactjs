@@ -2,7 +2,7 @@
 namespace PHPMV\core;
 
 /**
- *
+ * A React class generator.
  * PHPMV\core$ReactClass
  * This class is part of php-react
  *
@@ -49,6 +49,9 @@ class ReactClass {
 		$this->base = $baseClass;
 	}
 
+	/**
+	 * Initialize templates.
+	 */
 	public static function init(): void {
 		self::$template = new TemplateParser();
 		self::$template->loadTemplatefile(Library::getTemplateFolder() . '/class');
@@ -56,6 +59,16 @@ class ReactClass {
 		self::$methodTemplate->loadTemplatefile(Library::getTemplateFolder() . '/method');
 	}
 
+	/**
+	 * Add a new method to the class.
+	 *
+	 * @param string $name
+	 *        	The method name
+	 * @param string $body
+	 *        	The method javascript code body
+	 * @param mixed ...$params
+	 *        	The method parameters
+	 */
 	public function addMethod(string $name, string $body, ...$params): void {
 		$this->methods[$name] = [
 			'body' => $body,
@@ -63,6 +76,11 @@ class ReactClass {
 		];
 	}
 
+	/**
+	 * Generate the component javascript code.
+	 *
+	 * @return string
+	 */
 	public function parse(): string {
 		$body = [];
 		foreach ($this->methods as $name => $arrayMethod) {

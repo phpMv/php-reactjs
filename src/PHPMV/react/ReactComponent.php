@@ -5,6 +5,7 @@ use PHPMV\core\ReactClass;
 use PHPMV\utils\JSX;
 
 /**
+ * A React component generator.
  * PHPMV\react$ReactComponent
  * This class is part of php-react
  *
@@ -18,11 +19,25 @@ class ReactComponent extends ReactClass {
 		parent::__construct($name, 'React.Component');
 	}
 
-	public function addConstructor($jsBody) {
+	/**
+	 * Add the constructor.
+	 *
+	 * @param string $jsBody
+	 *        	The Javascript code body
+	 */
+	public function addConstructor(string $jsBody): void {
 		$this->addMethod('constructor', "\tsuper(props);\n" . $jsBody, 'props');
 	}
 
-	public function addRender(string $jsxHtml, string $jsInit = '') {
+	/**
+	 * Add the render method.
+	 *
+	 * @param string $jsxHtml
+	 *        	The JSX code to render
+	 * @param string $jsInit
+	 *        	Javascript code intialization before render
+	 */
+	public function addRender(string $jsxHtml, string $jsInit = ''): void {
 		$this->addMethod('render', $jsInit . ";return " . JSX::toJs($jsxHtml) . ";");
 	}
 }
