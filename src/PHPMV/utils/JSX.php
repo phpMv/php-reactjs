@@ -22,13 +22,13 @@ class JSX {
 
 	public static $reactCreateElement = 'React.createElement';
 
-	public static function loadHtml(string $html): string {
+	public static function toJs(string $html): string {
 		$dom = new \DOMDocument('1.0', 'UTF-8');
 		$dom->loadHTML($html);
-		return self::toJs($dom->documentElement->lastChild->firstChild);
+		return self::nodeToJs($dom->documentElement->lastChild->firstChild);
 	}
 
-	public static function toJs(\DOMNode $root): string {
+	private static function nodeToJs(\DOMNode $root): string {
 		$attributes = [];
 		$children = [];
 		$name = $root->nodeName;
