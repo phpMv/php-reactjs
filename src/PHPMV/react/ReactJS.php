@@ -1,8 +1,8 @@
 <?php
-namespace PHPMV;
+namespace PHPMV\react;
 
 /**
- * PHPMV$ReactJS
+ * PHPMV\react$ReactJS
  * This class is part of php-reactjs
  *
  * @author jc
