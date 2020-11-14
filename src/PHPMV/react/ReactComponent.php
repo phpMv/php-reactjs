@@ -22,8 +22,8 @@ class ReactComponent extends ReactClass {
 		$this->addMethod('constructor', "\tsuper(props);\n" . $jsBody, 'props');
 	}
 
-	public function addRender(string $jsxHtml) {
-		$this->addMethod('render', JSX::toJs($jsxHtml));
+	public function addRender(string $jsxHtml, string $jsInit = '') {
+		$this->addMethod('render', $jsInit . ";return " . JSX::toJs($jsxHtml) . ";");
 	}
 }
 
