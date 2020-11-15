@@ -53,10 +53,11 @@ class ReactClass {
 	 * Initialize templates.
 	 */
 	public static function init(): void {
+		$templateFolder = ReactLibrary::getTemplateFolder();
 		self::$template = new TemplateParser();
-		self::$template->loadTemplatefile(Library::getTemplateFolder() . '/class');
+		self::$template->loadTemplatefile($templateFolder . '/class');
 		self::$methodTemplate = new TemplateParser();
-		self::$methodTemplate->loadTemplatefile(Library::getTemplateFolder() . '/method');
+		self::$methodTemplate->loadTemplatefile($templateFolder . '/method');
 	}
 
 	/**
