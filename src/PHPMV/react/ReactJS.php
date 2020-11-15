@@ -46,7 +46,7 @@ class ReactJS {
 	 */
 	public static function renderComponent(string $jsxHtml, string $selector): string {
 		return (self::$operations[] = function () use ($selector, $jsxHtml) {
-			self::$renderTemplate->parse([
+			return self::$renderTemplate->parse([
 				'selector' => $selector,
 				'component' => JSX::toJs($jsxHtml)
 			]);
