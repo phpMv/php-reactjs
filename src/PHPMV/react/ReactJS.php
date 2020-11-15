@@ -22,6 +22,8 @@ class ReactJS {
 	 */
 	private static $operations = [];
 
+	public static $components = [];
+
 	/**
 	 *
 	 * @var TemplateParser
@@ -61,6 +63,7 @@ class ReactJS {
 	 */
 	public static function createComponent(string $name): ReactComponent {
 		$compo = new ReactComponent($name);
+		self::$components[\strtolower($name)] = $name;
 		self::$operations[] = function () use ($compo) {
 			return $compo->parse();
 		};

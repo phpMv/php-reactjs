@@ -2,6 +2,7 @@
 namespace PHPMV\utils;
 
 use PHPMV\js\JavascriptUtils;
+use PHPMV\react\ReactJS;
 
 /**
  * PHPMV\utils$JSX
@@ -14,18 +15,20 @@ use PHPMV\js\JavascriptUtils;
 class JSX {
 
 	private static function getName($name) {
-		if (\ucfirst($name) === $name) {
-			return $name;
-		}
-		return "'$name'";
+		return ReactJS::$components[$name] ?? "'$name'";
 	}
+
+	private static $attributes = [
+		'classname' => 'className'
+	];
 
 	public static $reactCreateElement = 'React.createElement';
 
 	public static function toJs(string $html): string {
+		\libxml_use_internal_errors(true);
 		$dom = new \DOMDocument('1.0', 'UTF-8');
-		$dom->loadHTML($html);
-		return self::nodeToJs($dom->documentElement->lastChild->firstChild);
+		$dom->loadHTML($html, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+		return self::nodeToJs($dom->documentElement);
 	}
 
 	private static function nodeToJs(\DOMNode $root): string {
@@ -37,7 +40,7 @@ class JSX {
 			$attrs = $root->attributes;
 
 			foreach ($attrs as $i => $attr) {
-				$attributes[$attr->name] = $attr->value;
+				$attributes[self::$attributes[$attr->name] ?? $attr->name] = $attr->value;
 			}
 		}
 
@@ -46,9 +49,9 @@ class JSX {
 		for ($i = 0; $i < $childNodes->length; $i ++) {
 			$child = $childNodes->item($i);
 			if ($child->nodeType == XML_TEXT_NODE) {
-				$children[] = "`{$child->nodeValue}`";
+				$children[] = "`" . \trim($child->nodeValue) . "`";
 			} else {
-				$children[] = self::toJs($child);
+				$children[] = self::nodeToJs($child);
 			}
 		}
 		$childrenStr = '';
