@@ -3,6 +3,8 @@ namespace PHPMV\react;
 
 use PHPMV\core\TemplateParser;
 use PHPMV\utils\JSX;
+use PHPMV\js\JavascriptUtils;
+use PHPMV\core\ReactLibrary;
 
 /**
  * PHPMV\react$ReactJS
@@ -16,6 +18,12 @@ class ReactJS {
 
 	/**
 	 *
+	 * @var array
+	 */
+	private static $operations = [];
+
+	/**
+	 *
 	 * @var TemplateParser
 	 */
 	private static $renderTemplate;
@@ -25,7 +33,7 @@ class ReactJS {
 	 */
 	public static function init(): void {
 		self::$renderTemplate = new TemplateParser();
-		self::$renderTemplate->loadTemplatefile(Library::getTemplateFolder() . '/renderComponent');
+		self::$renderTemplate->loadTemplatefile(ReactLibrary::getTemplateFolder() . '/renderComponent');
 		ReactComponent::init();
 	}
 
@@ -37,10 +45,12 @@ class ReactJS {
 	 * @return string
 	 */
 	public static function renderComponent(string $jsxHtml, string $selector): string {
-		return self::$renderTemplate->parse([
-			'selector' => $selector,
-			'component' => JSX::toJs($jsxHtml)
-		]);
+		return (self::$operations[] = function () use ($selector, $jsxHtml) {
+			self::$renderTemplate->parse([
+				'selector' => $selector,
+				'component' => JSX::toJs($jsxHtml)
+			]);
+		})();
 	}
 
 	/**
@@ -50,7 +60,19 @@ class ReactJS {
 	 * @return ReactComponent
 	 */
 	public static function createComponent(string $name): ReactComponent {
-		return new ReactComponent($name);
+		$compo = new ReactComponent($name);
+		self::$operations[] = function () use ($compo) {
+			return $compo->parse();
+		};
+		return $compo;
+	}
+
+	public static function compile() {
+		$script = '';
+		foreach (self::$operations as $op) {
+			$script .= $op();
+		}
+		return JavascriptUtils::wrapScript($script);
 	}
 }
 
