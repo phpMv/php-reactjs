@@ -14,13 +14,26 @@ use PHPMV\react\ReactJS;
  */
 class JSX {
 
+	private static $jsDetect = [
+		'onClick' => 0,
+		'value' => 0
+	];
+
 	private static function getName($name) {
 		return ReactJS::$components[$name] ?? "'$name'";
 	}
 
 	private static $attributes = [
-		'classname' => 'className'
+		'classname' => 'className',
+		'onclick' => 'onClick'
 	];
+
+	private static function cleanJSONFunctions(string $json) {
+		return \str_replace([
+			'"!!%',
+			'%!!"'
+		], '', $json);
+	}
 
 	public static $reactCreateElement = 'React.createElement';
 
@@ -40,7 +53,16 @@ class JSX {
 			$attrs = $root->attributes;
 
 			foreach ($attrs as $i => $attr) {
-				$attributes[self::$attributes[$attr->name] ?? $attr->name] = $attr->value;
+				$attrName = self::$attributes[$attr->name] ?? $attr->name;
+				$attrValue = $attr->value;
+				if (isset(self::$jsDetect[$attrName])) {
+					if (\substr($attrValue, 0, 1) === '{' && \substr($attrValue, - 1) === '}') {
+						$attrValue = substr($attrValue, 1, - 1);
+					}
+					$attributes[$attrName] = '!!%' . $attrValue . '%!!';
+				} else {
+					$attributes[$attrName] = $attrValue;
+				}
 			}
 		}
 
@@ -49,7 +71,17 @@ class JSX {
 		for ($i = 0; $i < $childNodes->length; $i ++) {
 			$child = $childNodes->item($i);
 			if ($child->nodeType == XML_TEXT_NODE) {
-				$children[] = "`" . \trim($child->nodeValue) . "`";
+				$v = trim($child->nodeValue);
+				if ($v != null) {
+					\preg_match_all("#\{(.*?)\}#", $v, $matches);
+					if (\count($matches[1]) > 0) {
+						foreach ($matches[1] as $ev) {
+							$children[] = $ev;
+						}
+					} else {
+						$children[] = "`$v`";
+					}
+				}
 			} else {
 				$children[] = self::nodeToJs($child);
 			}
@@ -58,7 +90,7 @@ class JSX {
 		if (count($children) > 0) {
 			$childrenStr = ',' . implode(',', $children);
 		}
-		return self::$reactCreateElement . "(" . self::getName($name) . "," . JavascriptUtils::toJSON($attributes) . "$childrenStr)";
+		return self::$reactCreateElement . "(" . self::getName($name) . "," . self::cleanJSONFunctions(JavascriptUtils::toJSON($attributes)) . "$childrenStr)";
 	}
 }
 
