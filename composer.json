@@ -13,7 +13,7 @@
         "phpmv/php-ui-common": "dev-main",
         "phpmv/php-ajax": "dev-main"
     },
-    "suggest": [],
+    "suggest": {},
     "autoload": {
         "psr-4": {
             "PHPMV\\": "src/PHPMV/"
