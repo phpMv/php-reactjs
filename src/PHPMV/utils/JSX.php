@@ -14,7 +14,12 @@ use PHPMV\react\ReactJS;
  */
 class JSX {
 
+	public static $reactCreateElement = 'React.createElement';
+
 	private static $jsDetect = [
+		'onBlur' => 0,
+		'onChange' => 0,
+		'onDblclick' => 0,
 		'onClick' => 0,
 		'value' => 0
 	];
@@ -25,7 +30,9 @@ class JSX {
 
 	private static $attributes = [
 		'classname' => 'className',
-		'onclick' => 'onClick'
+		'onblur' => 'onBlur',
+		'onclick' => 'onClick',
+		'onchange' => 'onChange'
 	];
 
 	private static function cleanJSONFunctions(string $json) {
@@ -35,13 +42,8 @@ class JSX {
 		], '', $json);
 	}
 
-	public static $reactCreateElement = 'React.createElement';
-
-	public static function toJs(string $html): string {
-		\libxml_use_internal_errors(true);
-		$dom = new \DOMDocument('1.0', 'UTF-8');
-		$dom->loadHTML($html, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-		return self::nodeToJs($dom->documentElement);
+	private static function hasBraces(string $str): bool {
+		return (\substr($str, 0, 1) === '{' && \substr($str, - 1) === '}');
 	}
 
 	private static function nodeToJs(\DOMNode $root): string {
@@ -56,8 +58,8 @@ class JSX {
 				$attrName = self::$attributes[$attr->name] ?? $attr->name;
 				$attrValue = $attr->value;
 				if (isset(self::$jsDetect[$attrName])) {
-					if (\substr($attrValue, 0, 1) === '{' && \substr($attrValue, - 1) === '}') {
-						$attrValue = substr($attrValue, 1, - 1);
+					if (self::hasBraces($attrValue)) {
+						$attrValue = \substr($attrValue, 1, - 1);
 					}
 					$attributes[$attrName] = '!!%' . $attrValue . '%!!';
 				} else {
@@ -73,7 +75,7 @@ class JSX {
 			if ($child->nodeType == XML_TEXT_NODE) {
 				$v = trim($child->nodeValue);
 				if ($v != null) {
-					\preg_match_all("#\{(.*?)\}#", $v, $matches);
+					\preg_match_all('@\{(.*?)\}@', $v, $matches);
 					if (\count($matches[1]) > 0) {
 						foreach ($matches[1] as $ev) {
 							$children[] = $ev;
@@ -92,5 +94,11 @@ class JSX {
 		}
 		return self::$reactCreateElement . "(" . self::getName($name) . "," . self::cleanJSONFunctions(JavascriptUtils::toJSON($attributes)) . "$childrenStr)";
 	}
-}
 
+	public static function toJs(string $html): string {
+		\libxml_use_internal_errors(true);
+		$dom = new \DOMDocument('1.0', 'UTF-8');
+		$dom->loadHTML($html, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+		return self::nodeToJs($dom->documentElement);
+	}
+}
