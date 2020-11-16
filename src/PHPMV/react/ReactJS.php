@@ -7,6 +7,7 @@ use PHPMV\js\JavascriptUtils;
 use PHPMV\core\ReactLibrary;
 
 /**
+ * The ReactJS service for PHP.
  * PHPMV\react$ReactJS
  * This class is part of php-reactjs
  *
@@ -20,22 +21,24 @@ class ReactJS {
 	 *
 	 * @var array
 	 */
-	private static $operations = [];
+	private $operations;
 
-	public static $components = [];
+	public $components;
 
 	/**
 	 *
 	 * @var TemplateParser
 	 */
-	private static $renderTemplate;
+	private $renderTemplate;
 
 	/**
 	 * Initialize templates.
 	 */
-	public static function init(): void {
-		self::$renderTemplate = new TemplateParser();
-		self::$renderTemplate->loadTemplatefile(ReactLibrary::getTemplateFolder() . '/renderComponent');
+	public function __construct() {
+		$this->operations = [];
+		$this->components = [];
+		$this->renderTemplate = new TemplateParser();
+		$this->renderTemplate->loadTemplatefile(ReactLibrary::getTemplateFolder() . '/renderComponent');
 		ReactComponent::init();
 	}
 
@@ -46,9 +49,9 @@ class ReactJS {
 	 * @param string $selector
 	 * @return string
 	 */
-	public static function renderComponent(string $jsxHtml, string $selector): string {
-		return (self::$operations[] = function () use ($selector, $jsxHtml) {
-			return self::$renderTemplate->parse([
+	public function renderComponent(string $jsxHtml, string $selector): string {
+		return ($this->operations[] = function () use ($selector, $jsxHtml) {
+			return $this->renderTemplate->parse([
 				'selector' => $selector,
 				'component' => JSX::toJs($jsxHtml)
 			]);
@@ -59,23 +62,35 @@ class ReactJS {
 	 * Create and return a new ReactComponent.
 	 *
 	 * @param string $name
+	 * @param bool $compile
 	 * @return ReactComponent
 	 */
-	public static function createComponent(string $name): ReactComponent {
+	public function createComponent(string $name, $compile = true): ReactComponent {
 		$compo = new ReactComponent($name);
-		self::$components[\strtolower($name)] = $name;
-		self::$operations[] = function () use ($compo) {
-			return $compo->parse();
-		};
+		$this->components[\strtolower($name)] = $name;
+		if ($compile) {
+			$this->operations[] = function () use ($compo) {
+				return $compo->parse();
+			};
+		}
 		return $compo;
 	}
 
-	public static function compile() {
+	/**
+	 * Generate the javascript code.
+	 *
+	 * @return string
+	 */
+	public function compile(): string {
 		$script = '';
-		foreach (self::$operations as $op) {
+		foreach ($this->operations as $op) {
 			$script .= $op();
 		}
 		return JavascriptUtils::wrapScript($script);
+	}
+
+	public function __toString() {
+		return $this->compile();
 	}
 }
 
