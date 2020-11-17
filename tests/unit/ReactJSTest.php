@@ -29,6 +29,25 @@ class ReactJSTest extends \Codeception\Test\Unit {
 		$compo = $this->react->createComponent('MyCompo');
 		$compo->addConstructor("console.log('super');");
 		$compo->addMethod('method', 'alert(a);alert(b);', 'a', 'b');
+		$compo->addRender('<div>
+        <div className="status">{status}</div>
+        <div className="board-row">
+          {this.renderSquare(0)}
+          {this.renderSquare(1)}
+          {this.renderSquare(2)}
+        </div>
+        <div className="board-row">
+          {this.renderSquare(3)}
+          {this.renderSquare(4)}
+          {this.renderSquare(5)}
+        </div>
+        <div className="board-row" value="{this.props.squares[i]}"
+        onClick="{() => this.props.onClick(i)}">
+          {this.renderSquare(6)}
+          {this.renderSquare(7)}
+          {this.renderSquare(8)}
+        </div>
+      </div>');
 		$this->assertEquals("<script>class MyCompo extends React.Component {\nconstructor(props){\n\tsuper(props);\nconsole.log('super');\n}\nmethod(a,b){\nalert(a);alert(b);\n}\n}</script>", $this->react->compile());
 		$this->react->renderComponent("<MyCompo/>", "#root");
 		$this->assertEquals("<script>class MyCompo extends React.Component {\nconstructor(props){\n\tsuper(props);\nconsole.log('super');\n}\nmethod(a,b){\nalert(a);alert(b);\n}\n}const domContainer = document.querySelector('#root');\nReactDOM.render(React.createElement('mycompo',[]), domContainer);</script>", $this->react->compile());

@@ -25,7 +25,7 @@ class JSX {
 	];
 
 	private static function getName($name) {
-		return ReactJS::$components[$name] ?? "'$name'";
+		return ReactJS::$components[$name] ?? '"' . $name . '"';
 	}
 
 	private static $attributes = [

@@ -1,2 +1,2 @@
-const domContainer = document.querySelector('/*selector*/');
+const domContainer = document.querySelector("/*selector*/");
 ReactDOM.render(/*component*/, domContainer);
