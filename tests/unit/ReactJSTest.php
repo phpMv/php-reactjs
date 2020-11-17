@@ -22,24 +22,16 @@ class ReactJSTest extends \Codeception\Test\Unit {
 	}
 
 	/**
-	 * Tests ReactJS::renderComponent()
-	 */
-	public function testRenderComponent() {
-
-		// TODO Auto-generated ReactJSTest::testRenderComponent()
-		$this->markTestIncomplete("renderComponent test not implemented");
-
-		ReactJS::renderComponent(/* parameters */);
-	}
-
-	/**
 	 * Tests ReactJS::createComponent()
 	 */
 	public function testCreateComponent() {
 		$this->assertEquals('', $this->react->compile());
 		$compo = $this->react->createComponent('MyCompo');
+		$compo->addConstructor("console.log('super');");
 		$compo->addMethod('method', 'alert(a);alert(b);', 'a', 'b');
-		$this->assertEquals("<script>class MyCompo extends React.Component {\nmethod(a,b){\nalert(a);alert(b);\n}\n}</script>", $this->react->compile());
+		$this->assertEquals("<script>class MyCompo extends React.Component {\nconstructor(props){\tsuper(props);\nconsole.log('super');\n}\nmethod(a,b){\nalert(a);alert(b);\n}\n}</script>", $this->react->compile());
+		$this->react->renderComponent("MyCompo", "#root");
+		$this->assertEquals("class MyCompo extends React.Component {\nconstructor(props){\n\tsuper(props);\nconsole.log('super');\n}\nmethod(a,b){\nalert(a);alert(b);\n}\n}const domContainer = document.querySelector('#root');\nReactDOM.render(React.createElement('mycompo',[]), domContainer);", $this->react->compile());
 	}
 
 	/**
