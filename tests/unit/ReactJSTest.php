@@ -49,7 +49,7 @@ class ReactJSTest extends \Codeception\Test\Unit {
 		$this->assertEquals('', $this->react->compile());
 		$this->react->renderComponent("<button />", "#root");
 
-		$this . assertEquals("<script>const domContainer = document.querySelector('#root');\nReactDOM.render(React.createElement('button',[]), domContainer);</script>", $this->react->compile());
+		$this->assertEquals("<script>const domContainer = document.querySelector('#root');\nReactDOM.render(React.createElement('button',[]), domContainer);</script>", $this->react->compile());
 	}
 }
 
