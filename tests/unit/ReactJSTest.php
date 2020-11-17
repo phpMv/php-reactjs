@@ -46,7 +46,7 @@ class ReactJSTest extends \Codeception\Test\Unit {
 	 * Tests ReactJS::compile()
 	 */
 	public function testCompile() {
-		$this->assertEquals('<script></script>', $this->react->compile());
+		$this->assertEquals('', $this->react->compile());
 		$this->react->renderComponent("<button />", "#root");
 
 		this . assertEquals("<script>const domContainer = document.querySelector('#root');
