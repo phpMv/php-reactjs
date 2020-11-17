@@ -36,10 +36,10 @@ class ReactJSTest extends \Codeception\Test\Unit {
 	 * Tests ReactJS::createComponent()
 	 */
 	public function testCreateComponent() {
-		// TODO Auto-generated ReactJSTest::testCreateComponent()
-		$this->markTestIncomplete("createComponent test not implemented");
-
-		ReactJS::createComponent(/* parameters */);
+		$this->assertEquals('', $this->react->compile());
+		$compo = $this->react->createComponent('MyCompo');
+		$compo->addMethod('method', 'alert(a);alert(b);', 'a', 'b');
+		$this->assertEquals("<script>class MyCompo extends React.Component {\nmethod(a,b){\nalert(a);alert(b);\n}\n}</script>", $this->react->compile());
 	}
 
 	/**
