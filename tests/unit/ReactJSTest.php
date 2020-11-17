@@ -31,7 +31,7 @@ class ReactJSTest extends \Codeception\Test\Unit {
 		$compo->addMethod('method', 'alert(a);alert(b);', 'a', 'b');
 		$this->assertEquals("<script>class MyCompo extends React.Component {\nconstructor(props){\n\tsuper(props);\nconsole.log('super');\n}\nmethod(a,b){\nalert(a);alert(b);\n}\n}</script>", $this->react->compile());
 		$this->react->renderComponent("MyCompo", "#root");
-		$this->assertEquals("class MyCompo extends React.Component {\nconstructor(props){\n\tsuper(props);\nconsole.log('super');\n}\nmethod(a,b){\nalert(a);alert(b);\n}\n}const domContainer = document.querySelector('#root');\nReactDOM.render(React.createElement('mycompo',[]), domContainer);", $this->react->compile());
+		$this->assertEquals("<script>class MyCompo extends React.Component {\nconstructor(props){\n\tsuper(props);\nconsole.log('super');\n}\nmethod(a,b){\nalert(a);alert(b);\n}\n}const domContainer = document.querySelector('#root');\nReactDOM.render(React.createElement('mycompo',[]), domContainer);</script>", $this->react->compile());
 	}
 
 	/**
