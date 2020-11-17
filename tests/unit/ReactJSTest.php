@@ -48,7 +48,28 @@ class ReactJSTest extends \Codeception\Test\Unit {
           {this.renderSquare(8)}
         </div>
       </div>');
-		$this->assertEquals("<script>class MyCompo extends React.Component {\nconstructor(props){\n\tsuper(props);\nconsole.log('super');\n}\nmethod(a,b){\nalert(a);alert(b);\n}\n}</script>", $this->react->compile());
+		$this->assertEquals('<script>class MyCompo extends React.Component {
+constructor(props){
+	super(props);
+console.log("super");
+}
+method(a,b){
+alert(a);alert(b);
+}
+render(){
+;return React.createElement("div",[],React.createElement("div",{
+    "className": "status"
+},status),React.createElement("div",{
+    "className": "board-row"
+},this.renderSquare(0),this.renderSquare(1),this.renderSquare(2)),React.createElement("div",{
+    "className": "board-row"
+},this.renderSquare(3),this.renderSquare(4),this.renderSquare(5)),React.createElement("div",{
+    "className": "board-row",
+    "value": this.props.squares[i],
+    "onClick": () => this.props.onClick(i)
+},this.renderSquare(6),this.renderSquare(7),this.renderSquare(8)));
+}
+}</script>', $this->react->compile());
 		$this->react->renderComponent("<MyCompo/>", "#root");
 		$this->assertEquals("<script>class MyCompo extends React.Component {\nconstructor(props){\n\tsuper(props);\nconsole.log('super');\n}\nmethod(a,b){\nalert(a);alert(b);\n}\n}const domContainer = document.querySelector('#root');\nReactDOM.render(React.createElement('mycompo',[]), domContainer);</script>", $this->react->compile());
 	}
@@ -60,7 +81,29 @@ class ReactJSTest extends \Codeception\Test\Unit {
 		$this->assertEquals('', $this->react->compile());
 		$this->react->renderComponent("<button />", "#root");
 
-		$this->assertEquals("<script>const domContainer = document.querySelector('#root');\nReactDOM.render(React.createElement('button',[]), domContainer);</script>", $this->react->compile());
+		$this->assertEquals('<script>class MyCompo extends React.Component {
+constructor(props){
+	super(props);
+console.log("super");
+}
+method(a,b){
+alert(a);alert(b);
+}
+render(){
+;return React.createElement("div",[],React.createElement("div",{
+    "className": "status"
+},status),React.createElement("div",{
+    "className": "board-row"
+},this.renderSquare(0),this.renderSquare(1),this.renderSquare(2)),React.createElement("div",{
+    "className": "board-row"
+},this.renderSquare(3),this.renderSquare(4),this.renderSquare(5)),React.createElement("div",{
+    "className": "board-row",
+    "value": this.props.squares[i],
+    "onClick": () => this.props.onClick(i)
+},this.renderSquare(6),this.renderSquare(7),this.renderSquare(8)));
+}
+}const domContainer = document.querySelector("#root");
+ReactDOM.render(React.createElement("mycompo",[]), domContainer);</script>', $this->react->compile());
 	}
 }
 
