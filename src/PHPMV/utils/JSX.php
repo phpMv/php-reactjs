@@ -24,8 +24,8 @@ class JSX {
 		'value' => 0
 	];
 
-	private static function getName($name) {
-		return ReactJS::$components[$name] ?? '"' . $name . '"';
+	private static function getName(string $name, ReactJS $react): string {
+		return $react->components[$name] ?? '"' . $name . '"';
 	}
 
 	private static $attributes = [
@@ -35,7 +35,7 @@ class JSX {
 		'onchange' => 'onChange'
 	];
 
-	private static function cleanJSONFunctions(string $json) {
+	private static function cleanJSONFunctions(string $json): string {
 		return \str_replace([
 			'"!!%',
 			'%!!"'
@@ -46,7 +46,7 @@ class JSX {
 		return (\substr($str, 0, 1) === '{' && \substr($str, - 1) === '}');
 	}
 
-	private static function nodeToJs(\DOMNode $root): string {
+	private static function nodeToJs(\DOMNode $root, ReactJS $react): string {
 		$attributes = [];
 		$children = [];
 		$name = $root->nodeName;
@@ -73,7 +73,7 @@ class JSX {
 		for ($i = 0; $i < $childNodes->length; $i ++) {
 			$child = $childNodes->item($i);
 			if ($child->nodeType == XML_TEXT_NODE) {
-				$v = trim($child->nodeValue);
+				$v = \trim($child->nodeValue);
 				if ($v != null) {
 					\preg_match_all('@\{(.*?)\}@', $v, $matches);
 					if (\count($matches[1]) > 0) {
@@ -85,20 +85,20 @@ class JSX {
 					}
 				}
 			} else {
-				$children[] = self::nodeToJs($child);
+				$children[] = self::nodeToJs($child, $react);
 			}
 		}
 		$childrenStr = '';
 		if (count($children) > 0) {
 			$childrenStr = ',' . implode(',', $children);
 		}
-		return self::$reactCreateElement . "(" . self::getName($name) . "," . self::cleanJSONFunctions(JavascriptUtils::toJSON($attributes)) . "$childrenStr)";
+		return self::$reactCreateElement . "(" . (isset($react)) ? self::getName($name, $react) : $name . "," . self::cleanJSONFunctions(JavascriptUtils::toJSON($attributes)) . "$childrenStr)";
 	}
 
-	public static function toJs(string $html): string {
+	public static function toJs(string $html, ?ReactJS $react = null): string {
 		\libxml_use_internal_errors(true);
 		$dom = new \DOMDocument('1.0', 'UTF-8');
 		$dom->loadHTML($html, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-		return self::nodeToJs($dom->documentElement);
+		return self::nodeToJs($dom->documentElement, $react);
 	}
 }

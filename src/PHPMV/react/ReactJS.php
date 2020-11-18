@@ -53,7 +53,7 @@ class ReactJS {
 		return ($this->operations[] = function () use ($selector, $jsxHtml) {
 			return $this->renderTemplate->parse([
 				'selector' => $selector,
-				'component' => JSX::toJs($jsxHtml)
+				'component' => JSX::toJs($jsxHtml, $this)
 			]);
 		})();
 	}
@@ -66,7 +66,7 @@ class ReactJS {
 	 * @return ReactComponent
 	 */
 	public function createComponent(string $name, $compile = true): ReactComponent {
-		$compo = new ReactComponent($name);
+		$compo = new ReactComponent($name, $this);
 		$this->components[\strtolower($name)] = $name;
 		if ($compile) {
 			$this->operations[] = function () use ($compo) {

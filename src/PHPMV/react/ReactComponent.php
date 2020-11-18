@@ -15,8 +15,11 @@ use PHPMV\utils\JSX;
  */
 class ReactComponent extends ReactClass {
 
-	public function __construct(string $name) {
+	private $react;
+
+	public function __construct(string $name, ReactJS $react) {
 		parent::__construct($name, 'React.Component');
+		$this->react = $react;
 	}
 
 	/**
@@ -38,7 +41,7 @@ class ReactComponent extends ReactClass {
 	 *        	Javascript code intialization before render
 	 */
 	public function addRender(string $jsxHtml, string $jsInit = ''): void {
-		$this->addMethod('render', $jsInit . ";return " . JSX::toJs($jsxHtml) . ";");
+		$this->addMethod('render', $jsInit . ";return " . JSX::toJs($jsxHtml, $this->react) . ";");
 	}
 }
 
