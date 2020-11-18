@@ -71,17 +71,7 @@ render(){
 }
 }</script>', $this->react->compile());
 		$this->react->renderComponent("<MyCompo/>", "#root");
-		$this->assertEquals("<script>class MyCompo extends React.Component {\nconstructor(props){\n\tsuper(props);\nconsole.log('super');\n}\nmethod(a,b){\nalert(a);alert(b);\n}\n}const domContainer = document.querySelector('#root');\nReactDOM.render(React.createElement('mycompo',[]), domContainer);</script>", $this->react->compile());
-	}
-
-	/**
-	 * Tests ReactJS::compile()
-	 */
-	public function testCompile() {
-		$this->assertEquals('', $this->react->compile());
-		$this->react->renderComponent("<button />", "#root");
-
-		$this->assertEquals('<script>class MyCompo extends React.Component {
+		$this->assertEquals('class MyCompo extends React.Component {
 constructor(props){
 	super(props);
 console.log("super");
@@ -104,6 +94,16 @@ render(){
 }
 }const domContainer = document.querySelector("#root");
 ReactDOM.render(React.createElement("mycompo",[]), domContainer);</script>', $this->react->compile());
+	}
+
+	/**
+	 * Tests ReactJS::compile()
+	 */
+	public function testCompile() {
+		$this->assertEquals('', $this->react->compile());
+		$this->react->renderComponent("<button />", "#root");
+
+		$this->assertEquals("<script>const domContainer = document.querySelector('#root');\nReactDOM.render(React.createElement('button',[]), domContainer);</script>", $this->react->compile());
 	}
 }
 
