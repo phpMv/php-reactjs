@@ -75,7 +75,7 @@ render(){
 }
 }</script>', $this->react->compile());
 		$this->react->renderComponent("<MyCompo/>", "#root");
-		$this->assertEqualsIgnoreNewLines('class MyCompo extends React.Component {
+		$this->assertEqualsIgnoreNewLines('<script>class MyCompo extends React.Component {
 constructor(props){
 	super(props);
 console.log("super");
