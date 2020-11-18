@@ -67,7 +67,11 @@ class JSX {
 				}
 			}
 		}
+		$childrenStr = self::getChildrenStr($root, $react);
+		return self::$reactCreateElement . "(" . ((isset($react)) ? self::getName($name, $react) : $name) . "," . self::cleanJSONFunctions(JavascriptUtils::toJSON($attributes)) . "$childrenStr)";
+	}
 
+	private static function getChildrenStr(\DOMNode $root, ?ReactJS $react): string {
 		$childNodes = $root->childNodes;
 
 		for ($i = 0; $i < $childNodes->length; $i ++) {
@@ -88,11 +92,7 @@ class JSX {
 				$children[] = self::nodeToJs($child, $react);
 			}
 		}
-		$childrenStr = '';
-		if (count($children) > 0) {
-			$childrenStr = ',' . implode(',', $children);
-		}
-		return self::$reactCreateElement . "(" . ((isset($react)) ? self::getName($name, $react) : $name) . "," . self::cleanJSONFunctions(JavascriptUtils::toJSON($attributes)) . "$childrenStr)";
+		return (count($children) > 0) ? (',' . implode(',', $children)) : '';
 	}
 
 	public static function toJs(string $html, ?ReactJS $react = null): string {
