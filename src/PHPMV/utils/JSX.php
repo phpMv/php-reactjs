@@ -46,7 +46,7 @@ class JSX {
 		return (\substr($str, 0, 1) === '{' && \substr($str, - 1) === '}');
 	}
 
-	private static function nodeToJs(\DOMNode $root, ReactJS $react): string {
+	private static function nodeToJs(\DOMNode $root, ?ReactJS $react): string {
 		$attributes = [];
 		$children = [];
 		$name = $root->nodeName;
@@ -92,7 +92,7 @@ class JSX {
 		if (count($children) > 0) {
 			$childrenStr = ',' . implode(',', $children);
 		}
-		return self::$reactCreateElement . "(" . (isset($react)) ? self::getName($name, $react) : $name . "," . self::cleanJSONFunctions(JavascriptUtils::toJSON($attributes)) . "$childrenStr)";
+		return self::$reactCreateElement . "(" . ((isset($react)) ? self::getName($name, $react) : $name) . "," . self::cleanJSONFunctions(JavascriptUtils::toJSON($attributes)) . "$childrenStr)";
 	}
 
 	public static function toJs(string $html, ?ReactJS $react = null): string {
