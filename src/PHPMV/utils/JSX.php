@@ -48,7 +48,6 @@ class JSX {
 
 	private static function nodeToJs(\DOMNode $root, ?ReactJS $react): string {
 		$attributes = [];
-		$children = [];
 		$name = $root->nodeName;
 
 		if ($root->hasAttributes()) {
@@ -72,6 +71,8 @@ class JSX {
 	}
 
 	private static function getChildrenStr(\DOMNode $root, ?ReactJS $react): string {
+		$children = [];
+
 		$childNodes = $root->childNodes;
 
 		for ($i = 0; $i < $childNodes->length; $i ++) {
