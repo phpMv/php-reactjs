@@ -21,13 +21,17 @@ class ReactJSTest extends \Codeception\Test\Unit {
 		$this->react = null;
 	}
 
+	protected function assertEqualsIgnoreNewLines($expected, $actual) {
+		$this->assertEquals(trim(preg_replace('/\R+/', '', $expected, $actual)));
+	}
+
 	/**
 	 * Tests ReactJS::createComponent()
 	 */
 	public function testCreateComponent() {
 		$this->assertEquals('', $this->react->compile());
 		$compo = $this->react->createComponent('MyCompo');
-		$compo->addConstructor("console.log('super');");
+		$compo->addConstructor('console.log("super");');
 		$compo->addMethod('method', 'alert(a);alert(b);', 'a', 'b');
 		$compo->addRender('<div>
         <div className="status">{status}</div>
@@ -48,7 +52,7 @@ class ReactJSTest extends \Codeception\Test\Unit {
           {this.renderSquare(8)}
         </div>
       </div>');
-		$this->assertEquals('<script>class MyCompo extends React.Component {
+		$this->assertEqualsIgnoreNewLines('<script>class MyCompo extends React.Component {
 constructor(props){
 	super(props);
 console.log("super");
@@ -71,7 +75,7 @@ render(){
 }
 }</script>', $this->react->compile());
 		$this->react->renderComponent("<MyCompo/>", "#root");
-		$this->assertEquals('class MyCompo extends React.Component {
+		$this->assertEqualsIgnoreNewLines('class MyCompo extends React.Component {
 constructor(props){
 	super(props);
 console.log("super");
@@ -103,7 +107,7 @@ ReactDOM.render(React.createElement(MyCompo,[]), domContainer);</script>', $this
 		$this->assertEquals('', $this->react->compile());
 		$this->react->renderComponent("<button />", "#root");
 
-		$this->assertEquals('<script>const domContainer = document.querySelector("#root");\nReactDOM.render(React.createElement("button",[]), domContainer);</script>', $this->react->compile());
+		$this->assertEqualsIgnoreNewLines('<script>const domContainer = document.querySelector("#root");\nReactDOM.render(React.createElement("button",[]), domContainer);</script>', $this->react->compile());
 	}
 }
 
