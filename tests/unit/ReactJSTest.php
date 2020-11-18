@@ -22,7 +22,7 @@ class ReactJSTest extends \Codeception\Test\Unit {
 	}
 
 	protected function assertEqualsIgnoreNewLines($expected, $actual) {
-		$this->assertEquals(trim(preg_replace('/\R+/', '', $expected, $actual)));
+		$this->assertEquals(trim(preg_replace('/\R+/', '', $expected)), trim(preg_replace('/\R+/', '', $actual)));
 	}
 
 	/**
