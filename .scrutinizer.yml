@@ -4,7 +4,6 @@ build:
       dependencies:
         before:
           - composer require codeception/codeception:^4.1
-          - composer require codeception/module-webdriver
       environment:
         php:
           version: 7.4
@@ -31,6 +30,7 @@ build:
       services:
       tests:
         before:
+          - composer require codeception/module-webdriver --dev
           - sudo cp tests/files/xdebug.ini /home/scrutinizer/.phpenv/versions/7.4.3/etc/conf.d/xdebug.ini
           - (cd tests/www/ && composer require phpmv/php-reactjs:dev-main)
           - sudo curl -v http://dev.local/index.php
