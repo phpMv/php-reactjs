@@ -4,7 +4,7 @@ build:
       dependencies:
         before:
           - composer require codeception/codeception:^4.1
-          - composer require codeception/module-webdriver --dev
+          - composer require codeception/module-webdriver
       environment:
         php:
           version: 7.4
