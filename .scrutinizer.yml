@@ -4,6 +4,7 @@ build:
       dependencies:
         before:
           - composer require codeception/codeception:^4.1
+          - composer require codeception/module-webdriver --dev
       environment:
         php:
           version: 7.4
@@ -14,9 +15,24 @@ build:
       environment:
         php:
           version: 7.4
+        hosts:
+          dev.local: '127.0.0.1'
+        apache2:
+          modules: ['rewrite']
+          sites:
+            ubiquity:
+              host: 'dev.local'
+              web_root: 'tests/www/'
+        selenium: true
+        google_chrome:
+          use_latest: true
       services:
       tests:
         before:
+          - sudo cp src/tests/files/xdebug.ini /home/scrutinizer/.phpenv/versions/7.4.3/etc/conf.d/xdebug.ini
+          - (cd src/ && composer require phpmv/php-reactjs)
+          - sudo curl -v http://dev.local/index.php
+
         override:
           - command: (./vendor/bin/codecept build && ./vendor/bin/codecept run --coverage-xml -v)
             coverage:
