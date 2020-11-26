@@ -1,10 +1,13 @@
 <?php
 include_once 'tests/acceptance/BaseAcceptance.php';
 
-class ReactJSCest extends BaseAcceptance {
+if (! class_exists(ReactJSCest::class)) {
 
-	public function _before(AcceptanceTester $I) {}
+	class ReactJSCest extends BaseAcceptance {
 
-	// tests
-	public function tryToTest(AcceptanceTester $I) {}
+		public function _before(AcceptanceTester $I) {}
+
+		// tests
+		public function tryToTest(AcceptanceTester $I) {}
+	}
 }
