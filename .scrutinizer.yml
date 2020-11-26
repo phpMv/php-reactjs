@@ -31,8 +31,8 @@ build:
       services:
       tests:
         before:
-          - sudo cp src/tests/files/xdebug.ini /home/scrutinizer/.phpenv/versions/7.4.3/etc/conf.d/xdebug.ini
-          - (cd src/ && composer require phpmv/php-reactjs)
+          - sudo cp tests/files/xdebug.ini /home/scrutinizer/.phpenv/versions/7.4.3/etc/conf.d/xdebug.ini
+          - (cd tests/www/ && composer require phpmv/php-reactjs)
           - sudo curl -v http://dev.local/index.php
 
         override:
