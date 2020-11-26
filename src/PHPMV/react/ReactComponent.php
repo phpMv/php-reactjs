@@ -43,5 +43,27 @@ class ReactComponent extends ReactClass {
 	public function addRender(string $jsxHtml, string $jsInit = ''): void {
 		$this->addMethod('render', $jsInit . ";return " . JSX::toJs($jsxHtml, $this->react) . ";");
 	}
+
+	/**
+	 * Add the componentDidMount method.
+	 *
+	 * @param string $jsBody
+	 *        	The Javascript code body
+	 */
+	public function onComponentDidMount(string $jsBody): void {
+		$this->addMethod('componentDidMount', $jsBody);
+	}
+
+	/**
+	 * Add the componentWillUnmount method.
+	 *
+	 * @param string $jsBody
+	 *        	The Javascript code body
+	 */
+	public function onComponentWillUnmount(string $jsBody): void {
+		$this->addMethod('componentWillUnmount', $jsBody);
+	}
+
+	public function setState(array $states) {}
 }
 

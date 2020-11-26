@@ -80,10 +80,14 @@ class JSX {
 			if ($child->nodeType == XML_TEXT_NODE) {
 				$v = \trim($child->nodeValue);
 				if ($v != null) {
-					\preg_match_all('@\{(.*?)\}@', $v, $matches);
-					if (\count($matches[1]) > 0) {
-						foreach ($matches[1] as $ev) {
-							$children[] = $ev;
+					$parts = \preg_split('@(\{.*?\})@', $v, null, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+					if (\count($parts) > 0) {
+						foreach ($parts as $ev) {
+							if (self::hasBraces($ev)) {
+								$children[] = \substr($ev, 1, - 1);
+							} else {
+								$children[] = '"' . $v . '"';
+							}
 						}
 					} else {
 						$children[] = "`$v`";
