@@ -32,7 +32,7 @@ build:
       tests:
         before:
           - sudo cp tests/files/xdebug.ini /home/scrutinizer/.phpenv/versions/7.4.3/etc/conf.d/xdebug.ini
-          - (cd tests/www/ && composer require phpmv/php-reactjs:dev-master)
+          - (cd tests/www/ && composer require phpmv/php-reactjs:dev-main)
           - sudo curl -v http://dev.local/index.php
 
         override:
