@@ -7,8 +7,16 @@
 	<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
 </head>
 <body>
-Hello React !
-</body>
+<div id='react'>
+</div>
 <?php
+$inc = $_GET['c'] ?? '';
+if ($inc != '') {
+	include 'include/' . $inc . '.php';
+} else {
+	echo "Hello React !";
+}
 ?>
+</body>
+
 </html>
