@@ -8,6 +8,9 @@ if (! class_exists('\\ReactJSCest')) {
 		public function _before(AcceptanceTester $I) {}
 
 		// tests
-		public function tryToTest(AcceptanceTester $I) {}
+		public function tryToTest(AcceptanceTester $I) {
+			$I->amGoingTo('/');
+			$I->canSee('Hello React !');
+		}
 	}
 }
