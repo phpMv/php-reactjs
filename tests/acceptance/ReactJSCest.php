@@ -12,5 +12,12 @@ if (! class_exists('\\ReactJSCest')) {
 			$I->amGoingTo('/');
 			$I->canSee('Hello React !');
 		}
+
+		// tests
+		public function tryToHelloMessage(AcceptanceTester $I) {
+			$I->amGoingTo('/HelloMessage');
+			$I->wait(10);
+			$I->canSee('Salut Thierry');
+		}
 	}
 }
