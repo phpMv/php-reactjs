@@ -21,7 +21,9 @@ class JSX {
 		'onChange' => 0,
 		'onDblclick' => 0,
 		'onClick' => 0,
-		'value' => 0
+		'onSubmit' => 0,
+		'value' => 0,
+		'items' => 0
 	];
 
 	private static function getName(string $name, ReactJS $react): string {
@@ -32,7 +34,8 @@ class JSX {
 		'classname' => 'className',
 		'onblur' => 'onBlur',
 		'onclick' => 'onClick',
-		'onchange' => 'onChange'
+		'onchange' => 'onChange',
+		'onsubmit' => 'onSubmit'
 	];
 
 	private static function cleanJSONFunctions(string $json): string {
@@ -74,30 +77,43 @@ class JSX {
 		$children = [];
 
 		$childNodes = $root->childNodes;
-
+		$open = null;
 		for ($i = 0; $i < $childNodes->length; $i ++) {
 			$child = $childNodes->item($i);
 			if ($child->nodeType == XML_TEXT_NODE) {
 				$v = \trim($child->nodeValue);
 				if ($v != null) {
-					$parts = \preg_split('@(\{.*?\})@', $v, null, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
-					if (\count($parts) > 0) {
-						foreach ($parts as $ev) {
-							if (self::hasBraces($ev)) {
-								$children[] = \substr($ev, 1, - 1);
-							} elseif (\trim($ev) != null) {
-								$children[] = '"' . $ev . '"';
-							}
-						}
-					} else {
-						$children[] = "`$v`";
-					}
+					self::parseTextNode($v, $children, $open);
 				}
 			} else {
-				$children[] = self::nodeToJs($child, $react);
+				if ($open != '') {
+					$open .= self::nodeToJs($child, $react);
+				} else {
+					$children[] = self::nodeToJs($child, $react);
+				}
 			}
 		}
 		return (count($children) > 0) ? (',' . implode(',', $children)) : '';
+	}
+
+	private static function parseTextNode(string $v, array &$children, ?string &$open) {
+		$parts = \preg_split('@(\{.*?\})@', $v, null, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+		if (\count($parts) > 0) {
+			foreach ($parts as $ev) {
+				if (self::hasBraces($ev)) {
+					$children[] = \substr($ev, 1, - 1);
+				} elseif (\substr($ev, 0, 1) === '{') {
+					$open = \substr($ev, 1);
+				} elseif ($open != '' && \substr($ev, - 1) === '}') {
+					$children[] = $open . \substr($ev, 0, - 1);
+					$open = '';
+				} elseif (\trim($ev) != null) {
+					$children[] = '"' . $ev . '"';
+				}
+			}
+		} else {
+			$children[] = "`$v`";
+		}
 	}
 
 	public static function toJs(string $html, ?ReactJS $react = null): string {
