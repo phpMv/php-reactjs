@@ -2,7 +2,7 @@
 use PHPMV\react\ReactJS;
 use function PHPUnit\Framework\assertEquals;
 
-if (! class_exists(ReactJSTest::class)) {
+if (! class_exists('\\ReactJSTest')) {
 
 	/**
 	 * ReactJS test case.

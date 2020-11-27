@@ -1,7 +1,7 @@
 <?php
 include_once 'tests/acceptance/BaseAcceptance.php';
 
-if (! class_exists(ReactJSCest::class)) {
+if (! class_exists('\\ReactJSCest')) {
 
 	class ReactJSCest extends BaseAcceptance {
 
