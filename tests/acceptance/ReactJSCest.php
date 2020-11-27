@@ -9,13 +9,13 @@ if (! class_exists('\\ReactJSCest')) {
 
 		// tests
 		public function tryToTest(AcceptanceTester $I) {
-			$I->amGoingTo('/');
+			$I->amOnPage('/');
 			$I->canSee('Hello React !');
 		}
 
 		// tests
 		public function tryToHelloMessage(AcceptanceTester $I) {
-			$I->amGoingTo('/HelloMessage');
+			$I->amOnPage('/HelloMessage');
 			$I->wait(10);
 			$I->canSee('Salut Thierry');
 		}
