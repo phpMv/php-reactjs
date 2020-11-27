@@ -1,5 +1,6 @@
 <?php
-require 'vendor/autoload.php';
+define('ROOT', __DIR__ . DIRECTORY_SEPARATOR);
+require ROOT . 'vendor/autoload.php';
 ?>
 <!doctype html>
 <html>
@@ -15,7 +16,7 @@ require 'vendor/autoload.php';
 <?php
 $inc = $_GET['c'] ?? '';
 if ($inc != '') {
-	include 'include/' . $inc . '.php';
+	include ROOT . 'include/' . $inc . '.php';
 } else {
 	echo "Hello React !";
 }
