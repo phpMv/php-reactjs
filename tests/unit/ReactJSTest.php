@@ -24,7 +24,13 @@ if (! class_exists('\\ReactJSTest')) {
 		}
 
 		protected function assertEqualsIgnoreNewLines($expected, $actual) {
-			$this->assertEquals(trim(preg_replace('/\R+/', '', $expected)), trim(preg_replace('/\R+/', '', $actual)));
+			$this->assertEquals(\trim(\str_replace([
+				'  ',
+				"\t"
+			], '', \preg_replace('/\R+/', '', $expected))), trim(\str_replace([
+				'  ',
+				"\t"
+			], '', \preg_replace('/\R+/', '', $actual))));
 		}
 
 		/**
