@@ -86,7 +86,7 @@ class JSX {
 							if (self::hasBraces($ev)) {
 								$children[] = \substr($ev, 1, - 1);
 							} elseif (\trim($ev) != null) {
-								$children[] = '"' . $v . '"';
+								$children[] = '"' . $ev . '"';
 							}
 						}
 					} else {
