@@ -42,6 +42,10 @@ if (! class_exists('\\ReactJSCest')) {
 			$I->wait(2);
 			$I->canSee('Entrée', 'body');
 			$I->canSee('monde', 'strong');
+			$I->canSeeNumberOfElements('h1', 0);
+			$I->fillField('#markdown-content', '# Test de h1');
+			$I->canSeeNumberOfElements('h1', 1);
+			$I->canSee('Test de h1', 'h1');
 		}
 	}
 }
