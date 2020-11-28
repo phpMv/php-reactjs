@@ -35,5 +35,13 @@ if (! class_exists('\\ReactJSCest')) {
 			$I->canSeeNumberOfElements('li', 2);
 			$I->canSee('Thé', 'li');
 		}
+
+		// tests
+		public function tryToRemarkable(AcceptanceTester $I) {
+			$I->amOnPage('/Remarkable');
+			$I->wait(2);
+			$I->canSee('Entrée', 'body');
+			$I->canSee('monde', 'strong');
+		}
 	}
 }

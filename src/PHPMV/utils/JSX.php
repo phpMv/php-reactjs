@@ -23,7 +23,9 @@ class JSX {
 		'onClick' => 0,
 		'onSubmit' => 0,
 		'value' => 0,
-		'items' => 0
+		'items' => 0,
+		'defaultValue' => 0,
+		'dangerouslySetInnerHTML' => 0
 	];
 
 	private static function getName(string $name, ReactJS $react): string {
@@ -35,7 +37,10 @@ class JSX {
 		'onblur' => 'onBlur',
 		'onclick' => 'onClick',
 		'onchange' => 'onChange',
-		'onsubmit' => 'onSubmit'
+		'onsubmit' => 'onSubmit',
+		'defaultvalue' => 'defaultValue',
+		'dangerouslysetinnerhtml' => 'dangerouslySetInnerHTML',
+		'htmlfor' => 'htmlFor'
 	];
 
 	private static function cleanJSONFunctions(string $json): string {
@@ -119,7 +124,7 @@ class JSX {
 	public static function toJs(string $html, ?ReactJS $react = null): string {
 		\libxml_use_internal_errors(true);
 		$dom = new \DOMDocument('1.0', 'UTF-8');
-		$dom->loadHTML($html, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+		$dom->loadHTML(\mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
 		return self::nodeToJs($dom->documentElement, $react);
 	}
 }
