@@ -21,7 +21,7 @@ build:
         apache2:
           modules: ['rewrite']
           sites:
-            ubiquity:
+            local:
               host: 'dev.local'
               web_root: 'tests/www/'
         selenium: true
@@ -31,7 +31,6 @@ build:
       tests:
         before:
           - composer require codeception/module-webdriver --dev
-          - sudo cp tests/files/xdebug.ini /home/scrutinizer/.phpenv/versions/7.4.3/etc/conf.d/xdebug.ini
           - (cd tests/www/ && composer install)
           - sudo curl -v http://dev.local/index.php
 
