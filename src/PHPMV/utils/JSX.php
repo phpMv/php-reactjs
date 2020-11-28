@@ -103,7 +103,7 @@ class JSX {
 
 	private static function parseTextNode(string $v, array &$children, ?string &$open) {
 		$parts = \preg_split('@(\{.*?\})@', $v, null, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
-		if (\count($parts) > 0) {
+		if ($parts && \count($parts) > 0) {
 			foreach ($parts as $ev) {
 				if (self::hasBraces($ev)) {
 					$children[] = \substr($ev, 1, - 1);
