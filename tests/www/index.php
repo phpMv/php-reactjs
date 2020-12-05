@@ -1,6 +1,7 @@
 <?php
 define('ROOT', __DIR__ . DIRECTORY_SEPARATOR);
 require ROOT . 'vendor/autoload.php';
+include 'c3.php';
 ?>
 <!doctype html>
 <html>
