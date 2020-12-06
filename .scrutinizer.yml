@@ -30,6 +30,7 @@ build:
       services:
       tests:
         before:
+          - sudo cp src/tests/files/xdebug.ini /home/scrutinizer/.phpenv/versions/7.4.3/etc/conf.d/xdebug.ini
           - composer require codeception/module-webdriver --dev
           - (cd tests/www/ && composer install)
           - sudo curl -v http://dev.local/index.php
