@@ -33,7 +33,7 @@ build:
           - cp -rT src/tests/www src/
           - (cd src/ && composer require codeception/module-webdriver codeception/module-asserts --dev)
           - sudo chmod 0777 -R src/*
-          - sudo curl -v http://dev.local/c3/report/clover
+          - sudo curl -v http://dev.local/c3/report/clear
 
         override:
           - command: (cd src/ && ./vendor/bin/codecept build && ./vendor/bin/codecept run --coverage-xml -v)
