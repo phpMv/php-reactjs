@@ -1,10 +1,11 @@
 <?php
 include 'c3.php';
-define('ROOT', __DIR__ . DIRECTORY_SEPARATOR);
 define('MY_APP_STARTED', true);
 
-require ROOT . 'vendor/autoload.php';
 if (\strpos($_GET['c'] ?? '', 'c3') === false) {
+	define('ROOT', __DIR__ . DIRECTORY_SEPARATOR);
+	require ROOT . 'vendor/autoload.php';
+
 	?>
 	<!doctype html>
 	<html>
