@@ -1,5 +1,5 @@
 <?php
-include '/c3.php';
+include 'c3.php';
 define('ROOT', __DIR__ . DIRECTORY_SEPARATOR);
 define('MY_APP_STARTED', true);
 
