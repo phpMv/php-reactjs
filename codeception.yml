@@ -1,9 +1,16 @@
+paths:
+    tests: tests
+    output: tests/_output
+    data: tests/_data
+    support: tests/_support
+    envs: tests/_envs
+actor_suffix: Tester
 extensions:
     enabled:
         - Codeception\Extension\RunFailed
 coverage:
     enabled: true
-    remote: false
+    remote: true
     c3_url: 'http://dev.local'
     cookie_domain: ".mysite.com"
 
@@ -12,11 +19,7 @@ coverage:
 settings:
     shuffle: true
     lint: true
-paths:
-    tests: tests
-    output: tests/_output
-    support: tests/_support
-    data: tests
+
 bootstrap: unit/_bootstrap.php
 reporters:
     xml: Codeception\PHPUnit\Log\JUnit
