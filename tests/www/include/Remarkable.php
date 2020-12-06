@@ -28,4 +28,4 @@ $compo->addRender('<div className="MarkdownEditor">
       </div>');
 $react->renderComponent('<MarkdownEditor />', '#react');
 
-echo $react->compile();
+echo $react->__toString();

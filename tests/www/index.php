@@ -4,7 +4,7 @@ define('ROOT', __DIR__ . DIRECTORY_SEPARATOR);
 define('MY_APP_STARTED', true);
 
 require ROOT . 'vendor/autoload.php';
-if (\substr($_GET['c'] ?? '', 0, 2) === 'c3') {
+if (\strpos($_GET['c'] ?? '', 'c3') !== false) {
 	require 'c3.php';
 } else {
 	?>

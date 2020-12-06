@@ -33,8 +33,8 @@ build:
           - cp -rT tests/www src/
           - composer require codeception/module-webdriver --dev
           - (cd src/ && composer install)
-          - sudo curl -v http://dev.local/index.php?c=TodoApp
-          - sudo ls -l src/
+          - sudo chmod 0777 -R src/*
+          - sudo curl -v http://dev.local/TodoApp
 
         override:
           - command: (./vendor/bin/codecept build && ./vendor/bin/codecept run --coverage-xml -v)
