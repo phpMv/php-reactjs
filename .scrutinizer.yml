@@ -31,8 +31,7 @@ build:
       tests:
         before:
           - cp -rT src/tests/www src/
-          - (cd src/ && composer require codeception/module-webdriver --dev)
-          - (cd src/ && composer update)
+          - (cd src/ && composer require codeception/module-webdriver codeception/module-asserts --dev)
           - sudo chmod 0777 -R src/*
           - sudo curl -v http://dev.local/c3/report/clover
 
