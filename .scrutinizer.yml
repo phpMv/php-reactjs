@@ -30,7 +30,7 @@ build:
       services:
       tests:
         before:
-          - cp -R tests/www/* src/
+          - cp -rT tests/www src/
           - composer require codeception/module-webdriver --dev
           - (cd src/ && composer install)
           - sudo curl -v http://dev.local/index.php?c=TodoApp
