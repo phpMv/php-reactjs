@@ -1,7 +1,6 @@
 {
     "require": {
         "php": "^7.4",
-		"phpmv/php-reactjs": "dev-main",
 		"codeception/c3": "^2.6",
 		"codeception/codeception": "^4.1"
     },
