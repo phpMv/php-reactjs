@@ -15,12 +15,11 @@ coverage:
     cookie_domain: ".mysite.com"
 
     include:
-        - src/PHPMV/*.php
+        - PHPMV/*.php
 settings:
     shuffle: true
     lint: true
 
-bootstrap: unit/_bootstrap.php
 reporters:
     xml: Codeception\PHPUnit\Log\JUnit
     html: Codeception\PHPUnit\ResultPrinter\HTML

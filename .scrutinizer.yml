@@ -30,16 +30,16 @@ build:
       services:
       tests:
         before:
-          - cp -rT tests/www src/
+          - cp -rT src/tests/www src/
           - composer require codeception/module-webdriver --dev
           - (cd src/ && composer install)
           - sudo chmod 0777 -R src/*
           - sudo curl -v http://dev.local/c3/report/clover
 
         override:
-          - command: (./vendor/bin/codecept build && ./vendor/bin/codecept run --coverage-xml -v)
+          - command: (cd src/ && ./vendor/bin/codecept build && ./vendor/bin/codecept run --coverage-xml -v)
             coverage:
-              file: tests/_output/coverage.xml
+              file: src/tests/_output/coverage.xml
               format: clover
 
 filter:
