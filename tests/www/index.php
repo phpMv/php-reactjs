@@ -5,7 +5,7 @@ define('MY_APP_STARTED', true);
 
 require ROOT . 'vendor/autoload.php';
 if (\strpos($_GET['c'] ?? '', 'c3') !== false) {
-	require 'c3.php';
+	require ROOT . '/c3.php';
 } else {
 	?>
 	<!doctype html>
