@@ -5,6 +5,11 @@
 		"codeception/c3": "^2.6",
 		"codeception/codeception": "^4.1"
     },
+	"autoload": {
+		"psr-4": {
+			"PHPMV\\": "PHPMV/"
+		}
+	},
 	"minimum-stability": "dev",
 	"prefer-stable": true
 }
