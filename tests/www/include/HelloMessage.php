@@ -5,4 +5,4 @@ $compo = $react->createComponent('HelloMessage');
 $compo->addRender("<div>Salut {this.props.name}</div>");
 $react->renderComponent('<HelloMessage name="Thierry" />', '#react');
 
-echo $react->compile();
+echo $react->__toString();
