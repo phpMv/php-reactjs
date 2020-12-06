@@ -16,7 +16,7 @@ if (! class_exists('\\ReactJSCest')) {
 		// tests
 		public function tryToHelloMessage(AcceptanceTester $I) {
 			$I->amOnPage('/HelloMessage');
-			$I->wait(10);
+			$I->wait(2);
 			$I->canSee('Salut Thierry', 'body');
 		}
 
