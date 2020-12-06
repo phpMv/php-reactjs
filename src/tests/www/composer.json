@@ -4,8 +4,7 @@
 		"codeception/c3": "^2.6",
 		"codeception/codeception": "^4.1",
 		"phpmv/php-ui-common": "dev-main",
-        "phpmv/php-ajax": "dev-main",
-        "codeception/module-webdriver": "^1.1"
+        "phpmv/php-ajax": "dev-main"
     },
 	"autoload": {
 		"psr-4": {
