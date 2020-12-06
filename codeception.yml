@@ -1,6 +1,12 @@
+extensions:
+    enabled:
+        - Codeception\Extension\RunFailed
 coverage:
     enabled: true
     remote: false
+    c3_url: 'http://dev.local'
+    cookie_domain: ".mysite.com"
+
     include:
         - src/PHPMV/*.php
 settings:
